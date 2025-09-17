@@ -1,5 +1,5 @@
 site_name: Ryan Muoio # — Founder of MuuKnighted Games
-site_dir: docs
+#site_dir: docs
 site_url: https://ryanmuoio.com
 
 theme:
