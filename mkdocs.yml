@@ -1,6 +1,7 @@
-site_name: Ryan Muoio # — Founder of MuuKnighted Games
-#site_dir: docs
+site_name: Ryan Muoio
 site_url: https://ryanmuoio.com
+docs_dir: docs  # Source files (index.md, etc.)
+site_dir: site  # Output for mkdocs build (ignored by .gitignore)
 
 theme:
   name: material
