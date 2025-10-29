@@ -18,14 +18,17 @@ theme:
     - navigation.tabs.sticky
     #- navigation.sections
     - navigation.expand
+    - navigation.path
+    - navigation.prune
     - navigation.indexes
     - navigation.top
     - toc.follow
+    - toc.integrate
     - search.suggest
     - search.highlight
     - search.share
     - content.code.copy
-    - toc.integrate
+  
     #- content.footnote.tooltips
   palette: 
     # Dark Mode
@@ -45,13 +48,19 @@ theme:
       accent: deep orange
 
 nav:
-  #- Home: index.md
-  - About: 
-    - Me: about/introduction.md
-  - Anim Tools:
-    - Anim Tools: products/animtools.md
-  - Animation Matching Suite:
-    - Animation Matching Suite: products/animationmatchingsuite.md
+  - About Me: index.md
+  - Products:
+  #  - products/index.md
+    - Anim Tools: 
+      - products/animtools.md
+    - Animation Matching Suite: 
+      - products/animationmatchingsuite.md
+  #- About: 
+  #  - Me: about/introduction.md
+  #- Anim Tools:
+  #  - Anim Tools: products/animtools.md
+  #- Animation Matching Suite:
+  #  - Animation Matching Suite: products/animationmatchingsuite.md
     
 
 markdown_extensions:
