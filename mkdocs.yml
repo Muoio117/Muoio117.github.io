@@ -86,8 +86,8 @@ extra:
       link: https://www.linkedin.com/in/ryan-muoio/
     - icon: simple/x
       link: https://x.com/RyanMuoio
-    - icon: simple/fab
-      link: https://www.fab.com/sellers/MuuKnighted%20Games
+#    - icon: simple/fab
+#      link: https://www.fab.com/sellers/MuuKnighted%20Games
 
 extra_css:
   - stylesheets/custom.css
