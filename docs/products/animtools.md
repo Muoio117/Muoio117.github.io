@@ -54,7 +54,7 @@ To install the plugin, either bring it into the project via the Epic Launcher or
     ![AddOperations](/assets/gifs/AddOperations.gif){width="90%" align="center" class="gif-with-border"}
 
 5.  **Preview the Edited Animations**: 
-    In the toolbar at the top of the viewport, switch from Original to Edited to preview what the output animations would look like. (This is non-destructive, of course.)
+    In the toolbar at the top of the viewport, switch from Original to Edited to preview what the output animations would look like. (This is non-destructive, of course.) To have Animations displayed properly, ensure `bEnableRootMotion = true` and `bForceRootLock = true` in all corresponding Anim Sequences.
 
     ![PreviewEditAnims](/assets/gifs/PreviewEditAnims.gif){width="90%" align="center" class="gif-with-border"}
 
@@ -76,7 +76,12 @@ To create one, right-click on the Content Browser, hover over Anim Tools, then s
 
 The **<span style="color: #3B7D23;">Animation List</span>** tab will hold all the Anim Sequence (`UAnimSequence`) assets that are to be modified. They can be added by pressing the Add button or by doing a drag-and-drop. Once an Anim Sequence is placed into the list, the underlying skeleton (`USkeleton`) of the Database will be automatically set, and any functionality requiring a skeleton will read from that set skeleton. For example, any further Anim Sequences added to the list must be of the same skeleton as the currently existing Anim Sequences within the list.
 
+!!! note inline end "Enable Root Motion"
+
+    To have Animations displayed properly in the viewport, ensure `bEnableRootMotion = true` and `bForceRootLock = true` in all corresponding Anim Sequences.
+
 The **<span style="color: #0070C0;">Viewport</span>** tab is, unsurprisingly, the preview port displaying currently selected Anim Sequences. Not all Anim Sequences within the Animation List will be displayed in the Viewport; only *selected* Anim Sequences within the list will be displayed. (To select multiple assets at once, use either `Shift` `+` `Click` or `Ctrl` `+` `Click`.)
+
 
 The **<span style="color: #C04F15;">Configuration</span>** tab contains general settings. The **Output** section details whether the modified Anim Sequences should overwrite existing assets (in place) or write to newly created Anim Sequences within a user-specified directory. The **Mesh Direction** section requires the user to specify two axes. 
 
@@ -231,6 +236,9 @@ Regarding the functions called within the `BindFunctionToProperty` and `BindProp
 All that said, it should be noted that `ConfigureAutoBindings` is **optional**, and bindings in general are **optional**.
 
 #### <span style="color: #5A84D4;">Per-Animation Control</span>
+!!! info inline end "Custom Metadata" 
+
+    In C++, the custom `AllowPerAnimEdits` and `PerAnimEditCondition` meta specifiers are used to trigger specific per-Animation control.
 Operations support properties having per-Animation editability, meaning properties can have different values for each Animation. This grants fine-grained control so the user can tailor the select Operation to act in a relevant way on each Animation.
 
 !!! warning "Not All Types Supported"
@@ -244,6 +252,22 @@ For a Blueprint property to be eligible for per-Animation editability, it must b
 The result, of course, is the ability to set different values of the property for each Animation.
 
 ![PerAnimationEditableResult](/assets/gifs/PerAnimationEditableResult.gif){width="80%" align="center" class="gif-with-border"}
+
+This freedom comes with another thing to consider, at least in the case of C++ implementation. That is, what about the `EditCondition` meta property? When a property is per-Animation editable, using the standard `EditCondition` will apply a blanket effect to all per-Animation editable properties displayed in the Per-Animation Settings grid. Often, however, we may desire the state of one (or more) per-Animation property to affect another per-Animation property in a granular way. Hence, the `PerAnimEditCondition` is introduced. For example, the below code snippet is taken from the `Blend Anim Ends` Operation (i.e. `UATBlendAnimEndsOperation`).
+![PerAnimEditCondition](/assets/gifs/PerAnimEditCondition.gif){width="60%" align="right" }
+
+```cpp hl_lines="8"
+    /** The generic target for blending.
+	 *  - Self: this Animation.
+	 *  - Other: a different select AnimSequence. */
+	UPROPERTY(EditAnywhere, Category = "Blend", Meta = (AllowPerAnimEdits))
+	EATBlendTarget GenericBlendTarget {EATBlendTarget::Self};
+
+	/** The AnimSequence to blend to. (This, of course, is only relevant if BlendTarget = Other.) */
+	UPROPERTY(EditAnywhere, Category = "Blend", Meta = (AllowPerAnimEdits, PerAnimEditCondition = "GenericBlendTarget == EATBlendTarget::Other"))
+	TObjectPtr<UAnimSequence> AnimSequenceBlendTarget {nullptr};
+```
+The effect of the `PerAnimEditCondition` is the corresponding gif.
 
 
 ## <span style="color: #5A84D4;">Utility Libraries</span>
@@ -260,7 +284,7 @@ The `Align Anim with Axis` Operation (i.e. `UATAlignAnimWithAxisOperation`) alig
 
 
 ### <span style="color: #5A84D4;">Blend Anim Ends</span>
-The `Blend Anim Ends` Operation (`UATBlendAnimEndsOperation`) blends Animation ends together using select inertialization methods in the Local Space of the bones; that is, the Operation can ensure the first/last frame of an Animation matches 
+The `Blend Anim Ends` Operation (i.e. `UATBlendAnimEndsOperation`) blends Animation ends together using select inertialization methods in the Local Space of the bones; that is, the Operation can ensure the first/last frame of an Animation matches 
 
 1.  the last/first frame in the same Animation,
 2.  the first frame in another Animation, or
@@ -292,6 +316,12 @@ The `Constrain IK` Operation (i.e. `UATConstrainIKOperation`) is meant as a "qui
 The `Copy Motion` Operation (i.e. `UATCopyMotionOperation`) is inspired by Epic's experimental Copy Motion anim node (`FAnimNode_CopyMotion`), described in [this article](https://eoshelp.epicgames.com/s/article/Using-Copy-Motion-node-for-layering-with-Motion-Matching?language=en_US). The Operation is, of course, an offline version of the `FAnimNode_CopyMotion` class provided by Epic, but the core features are present. Essentially, the Operation, as with the anim node, "generates an additive transform for a specific bone based on some input poses, optionally in the space of another bone," and then allows that additive transform (internally called the `TransformOffset`) to be scaled and reoriented prior to its application. 
 
 This Operation is currently experimental because the output is not of the same level of quality as what Epic showed in their [demonstration](https://youtu.be/u9Z8CK561_Y?t=2216).
+
+
+### <span style="color: #5A84D4;">Curve to Root Motion (Experimental)</span>
+![CurveToRootMotionExample](/assets/gifs/CurveToRootMotionExample.gif){width="80%" align="center" }
+
+The `Curve to Root Motion` Operation (i.e. `UATCurveToRootMotionOperation`) extracts distance or speed curve data from an Animation's float curves and generates root motion. The above gif demonstrates the results when the Operation is applied to the Stop-state Animations from [Gideon](https://www.fab.com/listings/51935254-f70f-400a-8ca5-91a3e1b83e3b) (the character from [Paragon](https://en.wikipedia.org/wiki/Paragon_(video_game))).
 
 
 ### <span style="color: #5A84D4;">Generate Root Bone Curves</span>
