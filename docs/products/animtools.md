@@ -253,8 +253,11 @@ The result, of course, is the ability to set different values of the property fo
 
 ![PerAnimationEditableResult](/assets/gifs/PerAnimationEditableResult.gif){width="80%" align="center" class="gif-with-border"}
 
-This freedom comes with another thing to consider, at least in the case of C++ implementation. That is, what about the `EditCondition` meta property? When a property is per-Animation editable, using the standard `EditCondition` will apply a blanket effect to all per-Animation editable properties displayed in the Per-Animation Settings grid. Often, however, we may desire the state of one (or more) per-Animation property to affect another per-Animation property in a granular way. Hence, the `PerAnimEditCondition` is introduced. For example, the below code snippet is taken from the `Blend Anim Ends` Operation (i.e. `UATBlendAnimEndsOperation`).
+##### <span style="color: #5A84D4;">Edit Condition</span>
+This freedom comes with another thing to consider, at least in the case of C++ implementation. That is, what about the `EditCondition` meta property? When a property is per-Animation editable, using the standard `EditCondition` will apply a blanket effect to all per-Animation editable properties displayed in the Per-Animation Settings grid. 
 ![PerAnimEditCondition](/assets/gifs/PerAnimEditCondition.gif){width="60%" align="right" }
+Often, however, we may desire the state of one (or more) per-Animation property to affect another per-Animation property in a granular way. Hence, the `PerAnimEditCondition` is introduced. For example, the below code snippet is taken from the `Blend Anim Ends` Operation (i.e. `UATBlendAnimEndsOperation`).
+
 
 ```cpp hl_lines="8"
     /** The generic target for blending.
@@ -267,7 +270,12 @@ This freedom comes with another thing to consider, at least in the case of C++ i
 	UPROPERTY(EditAnywhere, Category = "Blend", Meta = (AllowPerAnimEdits, PerAnimEditCondition = "GenericBlendTarget == EATBlendTarget::Other"))
 	TObjectPtr<UAnimSequence> AnimSequenceBlendTarget {nullptr};
 ```
-The effect of the `PerAnimEditCondition` is the corresponding gif.
+The effect of the `PerAnimEditCondition` is shown the corresponding gif.
+
+##### <span style="color: #5A84D4;">Bindings</span>
+![Bindings](/assets/images/Bindings.png){width="40%" align="right" }
+Another method of controlling the behavior of per-Animation editable properties is through <span style="color: #5A84D4;">bindings</span>. As shown to the right, when the per-Animation toggle is enabled, a dropdown can be clicked to reveal between one a three bindings options, depending on the property type. These affect the corresponding property as the binding name implies. In the pictured example, `IsEnabled`, `MinValue`, and `MaxValue` are available for the property, and each binding can be manually set to another member variable or function of the Operation class. (For auto-bindings, refer to the Configure Auto-Bindings section above.)
+
 
 
 ## <span style="color: #5A84D4;">Utility Libraries</span>
@@ -321,7 +329,7 @@ This Operation is currently experimental because the output is not of the same l
 ### <span style="color: #5A84D4;">Curve to Root Motion (Experimental)</span>
 ![CurveToRootMotionExample](/assets/gifs/CurveToRootMotionExample.gif){width="80%" align="center" }
 
-The `Curve to Root Motion` Operation (i.e. `UATCurveToRootMotionOperation`) extracts distance or speed curve data from an Animation's float curves and generates root motion. The above gif demonstrates the results when the Operation is applied to the Stop-state Animations from [Gideon](https://www.fab.com/listings/51935254-f70f-400a-8ca5-91a3e1b83e3b) (the character from [Paragon](https://en.wikipedia.org/wiki/Paragon_(video_game))).
+The `Curve to Root Motion` Operation (i.e. `UATCurveToRootMotionOperation`) extracts distance or speed curve data from an Animation's float curves and generates root motion. The above gif demonstrates the results when the Operation is applied to the Stop-state Animations from [Gideon](https://www.fab.com/listings/51935254-f70f-400a-8ca5-91a3e1b83e3b) (the character from [Paragon](https://en.wikipedia.org/wiki/Paragon_(video_game))). 
 
 
 ### <span style="color: #5A84D4;">Generate Root Bone Curves</span>
@@ -346,7 +354,7 @@ The `Remove Root Offset` Operation (i.e. `UATRemoveRootOffsetOperation`) removes
 The `Retime Anims for Blendspace` Operation (i.e. `UATRetimeOperation`) prepares locomotion-specific Animations to blend within Blendspaces. However, since the algorithm is not magical, the Animations must adhere to the below criteria; otherwise, all sorts of unaesthetic things will likely result.
 
 1.  Sync markers corresponding to foot steps MUST be present on ALL Animations.
-2.  Animations must have the same number of foot steps (and therefore sync markers) for each foot. (The number of steps of the right foot must the same across all selected Animations, and the number of steps of the left foot must be the same across all Animations.)
+2.  Animations must have the same number of foot steps (and therefore sync markers) for each foot. (The number of steps of the right foot must be the same across all selected Animations, and the number of steps of the left foot must be the same across all Animations.)
 3.  The locomotion gait must be the same; that is, the Animations must be all walking, or all jogging, etc.
 4.  The animations must share the same locomotion state: start, stop, loop, pivot, etc. 
 
