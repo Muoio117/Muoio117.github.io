@@ -56,7 +56,12 @@ To install the plugin, either bring it into the project via the Epic Launcher or
 5.  **Preview the Edited Animations**: 
     In the toolbar at the top of the viewport, switch from Original to Edited to preview what the output animations would look like. (This is non-destructive, of course.) To have Animations displayed properly, ensure `bEnableRootMotion = true` and `bForceRootLock = true` in all corresponding Anim Sequences.
 
+   <!-- !!! note "No Corrective Bones"
+        Corrective bones are not displayed in the preview. Doing so caused baking issues (for an unknown reason).-->
+     
     ![PreviewEditAnims](/assets/gifs/PreviewEditAnims.gif){width="90%" align="center" class="gif-with-border"}
+
+    
 
 6.  **Press Apply**:
     If everything looks as desired, press Apply to finalize the changes.
@@ -272,9 +277,17 @@ Often, however, we may desire the state of one (or more) per-Animation property 
 ```
 The effect of the `PerAnimEditCondition` is shown the corresponding gif.
 
-##### <span style="color: #5A84D4;">Bindings</span>
 ![Bindings](/assets/images/Bindings.png){width="40%" align="right" }
-Another method of controlling the behavior of per-Animation editable properties is through <span style="color: #5A84D4;">bindings</span>. As shown to the right, when the per-Animation toggle is enabled, a dropdown can be clicked to reveal between one a three bindings options, depending on the property type. These affect the corresponding property as the binding name implies. In the pictured example, `IsEnabled`, `MinValue`, and `MaxValue` are available for the property, and each binding can be manually set to another member variable or function of the Operation class. (For auto-bindings, refer to the Configure Auto-Bindings section above.)
+##### <span style="color: #5A84D4;">Bindings</span>
+
+Another method of controlling the behavior of per-Animation editable properties is through <span style="color: #5A84D4;">bindings</span>. As shown to the right, when the per-Animation toggle is enabled, a dropdown can be clicked to reveal between one and three bindings options, depending on the property type. These affect the corresponding property as the binding name implies. In the pictured example, `IsEnabled`, `MinValue`, and `MaxValue` are available for the property, and each binding can be manually set to another member variable or function of the Operation class. (For auto-bindings, refer to the Configure Auto-Bindings section above.)
+!!! warning inline end "Conflicts" 
+
+    Do not use `PerAnimEditCondition` together with the `IsEnabled` binding on the same property, as it will likely cause conflicts.
+
+The `IsEnabled` binding effectively does what the `PerAnimEditCondition` can do: it determines when a property is enabled (and therefore editable). Avoid using both on the same property. Since `IsEnabled` is obviously a `bool`, it can be bound either a `bool` class member variable or a pure function that returns `bool`.
+
+The `MinValue` and `MaxValue` bindings dictate, as the names imply, the minimum and maximum values the corresponding property is allowed to take in the Per-Animation Settings grid. They can only be bound to member variables of the same type as the property in question or a pure function returning the same type as that property. For example, if `MinValue` and `MaxValue` are applied to a `float` property, only `float` properties or pure functions returning a `float` can be used as bindings.
 
 
 
