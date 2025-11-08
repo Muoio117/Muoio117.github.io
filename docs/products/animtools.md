@@ -402,3 +402,14 @@ The Anim Tools `Anim Node` is *highly experimental*. Due to how real anim nodes 
 
 Feedback is appreciate on this experimental feature.
 
+
+## <span style="color: #5A84D4;">F.A.Q.</span>
+
+1. **How is Anim Tools different from a simple Anim Modifier?**
+    -   A non-destructive workflow is permitted.
+    -   Multiple animation assets can be analyzed at once, allowing for the extraction of statistical data.
+    -   Modifications can be previewed in the viewport.
+    -   Select Anim Nodes can be applied via the experimental Anim Node wrapper node.
+    -   Control Rig can be directly applied via the experimental Control Rig wrapper node.
+    -   Extensive function libraries and function built into the Animation (`UATAnimation`) class streamline the workflow.
+
