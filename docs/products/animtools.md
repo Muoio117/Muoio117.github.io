@@ -15,10 +15,10 @@ The Anim Tools (AT) plugin --- previously named MoCap Tools (MCT) --- is a power
 
 Some of the key features are listed below.
 
-- <span style="color: #5A84D4;">**Bulk Animation Processing**</span>: Modify multiple AnimSequences at once.
-- <span style="color: #5A84D4;">**Custom Operations**</span>: Create user-defined Operations (`UATBaseOperation`) --- the actions applied to `UAnimSequence` assets --- in either C++ or Blueprint. This means users are not limited to whatever Operations are shipped with the plugin.
-- <span style="color: #5A84D4;">**Non-Destructive Workflow**</span>: Preview changes before applying them and choose whether to overwrite existing assets or generate new ones.
-- <span style="color: #5A84D4;">**Per-Animation Property Control**</span>: Configure Operation properties differently for each AnimSequence.
+- <span style="color: #a4c2f4;">**Bulk Animation Processing**</span>: Modify multiple AnimSequences at once.
+- <span style="color: #a4c2f4;">**Custom Operations**</span>: Create user-defined Operations (`UATBaseOperation`) --- the actions applied to `UAnimSequence` assets --- in either C++ or Blueprint. This means users are not limited to whatever Operations are shipped with the plugin.
+- <span style="color: #a4c2f4;">**Non-Destructive Workflow**</span>: Preview changes before applying them and choose whether to overwrite existing assets or generate new ones.
+- <span style="color: #a4c2f4;">**Per-Animation Property Control**</span>: Configure Operation properties differently for each AnimSequence.
 
 ### <span style="color: #5A84D4;">Requirements</span>
 The Anim Tools plugin is supported for **Unreal Engine 5.6+**. (The predecessor, Mocap Tools, which is the original form of this plugin, is supported for engine versions 5.4 and 5.5, but no further updates will be provided for MoCap Tools.)
@@ -55,13 +55,7 @@ To install the plugin, either bring it into the project via the Epic Launcher or
 
 5.  **Preview the Edited Animations**: 
     In the toolbar at the top of the viewport, switch from Original to Edited to preview what the output animations would look like. (This is non-destructive, of course.) To have Animations displayed properly, ensure `bEnableRootMotion = true` and `bForceRootLock = true` in all corresponding Anim Sequences.
-
-   <!-- !!! note "No Corrective Bones"
-        Corrective bones are not displayed in the preview. Doing so caused baking issues (for an unknown reason).-->
-     
     ![PreviewEditAnims](/assets/gifs/PreviewEditAnims.gif){width="90%" align="center" class="gif-with-border"}
-
-    
 
 6.  **Press Apply**:
     If everything looks as desired, press Apply to finalize the changes.
@@ -280,7 +274,7 @@ The effect of the `PerAnimEditCondition` is shown the corresponding gif.
 ![Bindings](/assets/images/Bindings.png){width="40%" align="right" }
 ##### <span style="color: #5A84D4;">Bindings</span>
 
-Another method of controlling the behavior of per-Animation editable properties is through <span style="color: #5A84D4;">bindings</span>. As shown to the right, when the per-Animation toggle is enabled, a dropdown can be clicked to reveal between one and three bindings options, depending on the property type. These affect the corresponding property as the binding name implies. In the pictured example, `IsEnabled`, `MinValue`, and `MaxValue` are available for the property, and each binding can be manually set to another member variable or function of the Operation class. (For auto-bindings, refer to the Configure Auto-Bindings section above.)
+Another method of controlling the behavior of per-Animation editable properties is through <span style="color: #a4c2f4;">bindings</span>. As shown to the right, when the per-Animation toggle is enabled, a dropdown can be clicked to reveal between one and three bindings options, depending on the property type. These affect the corresponding property as the binding name implies. In the pictured example, `IsEnabled`, `MinValue`, and `MaxValue` are available for the property, and each binding can be manually set to another member variable or function of the Operation class. (For auto-bindings, refer to the Configure Auto-Bindings section above.)
 !!! warning inline end "Conflicts" 
 
     Do not use `PerAnimEditCondition` together with the `IsEnabled` binding on the same property, as it will likely cause conflicts.
