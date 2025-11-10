@@ -394,7 +394,7 @@ Potential updates may include functionality to pass in parameters via pins. Addi
 
 The Anim Tools `Anim Node` is *highly experimental*. Due to how real anim nodes work within the Anim Instance and Anim Graph, it is doubtful the full functionality of anim nodes can ever be brought into Anim Tools, particularly for anim nodes that depend on World time and other information. Currently, the anim nodes that seem to function are those that *don't* depend on information that would otherwise be fed into it via the Anim Graph. In my experience, simple IK nodes and layering nodes seem to work fine. 
 
-Feedback is appreciate on this experimental feature.
+Feedback is appreciated on this experimental feature.
 
 
 ## <span style="color: #5A84D4;">F.A.Q.</span>
