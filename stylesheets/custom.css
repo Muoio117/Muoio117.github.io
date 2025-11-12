@@ -1,0 +1,7 @@
+.gif-with-border {
+    display: block;
+    margin-left: 2em; /* Matches bullet point indentation */
+    margin-right: auto;
+    border: 2px solid #333; /* Adjust border thickness and color */
+    box-sizing: border-box; /* Ensures border doesn’t affect width */
+}
