@@ -390,6 +390,9 @@ The `ApplyControlRig` node accepts any Control Rig class and applies is directly
 Potential updates may include functionality to pass in parameters via pins. Additionally, if possible, a per-key version of the node could be created --- or could replace the current version. Much of this depends on user feedback.
 
 ### <span style="color: #5A84D4;">Anim Nodes</span>
+!!! info "Set the Skeletal Mesh"
+    In order for the internal workings of the `Anim Node` wrapper to work, a skeletal mesh must be applied to the Anim Sequence assets be used.
+
 ![AnimNode](/assets/gifs/AnimNode.gif){width="65%" align="right" class="gif-with-border"}
 
 The Anim Tools `Anim Node` is *highly experimental*. Due to how real anim nodes work within the Anim Instance and Anim Graph, it is doubtful the full functionality of anim nodes can ever be brought into Anim Tools, particularly for anim nodes that depend on World time and other information. Currently, the anim nodes that seem to function are those that *don't* depend on information that would otherwise be fed into it via the Anim Graph. In my experience, simple IK nodes and layering nodes seem to work fine. 
